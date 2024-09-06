@@ -66,6 +66,8 @@ export const createProduct = async (req, res) => {
       // Delete image from server after successful Cloudinary upload
       fs.unlinkSync(file.path);
     }
+    // Parse the specifications JSON field from the form-data
+    const specifications = JSON.parse(req.body.specifications);
 
     // Save the product to the database
     const product = await Product.create({
@@ -74,6 +76,7 @@ export const createProduct = async (req, res) => {
       description,
       category_id,
       price,
+      specifications: specifications,
       images: imageUrls, // Save array of Cloudinary URLs
     });
 
@@ -118,7 +121,10 @@ export const updateProductById = async (req, res) => {
 export const deleteProductById = async (req, res) => {
   try {
     const product = await Product.findByPk(req.params.id);
-    if (!product) return res.status(404).json({ message: "Product not found to getProductById" });
+    if (!product)
+      return res
+        .status(404)
+        .json({ message: "Product not found to getProductById" });
 
     await product.destroy();
     res.json({ message: "Product deleted" });
