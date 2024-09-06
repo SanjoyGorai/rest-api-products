@@ -1,13 +1,28 @@
 import Category from "../models/categoryModel.js";
+import { nanoid } from "nanoid";
 
-// Create a new category
 export const createCategory = async (req, res) => {
   const { name } = req.body;
+
   try {
-    const newCategory = await Category.create({ name });
+    // Check if the category name already exists
+    const existingCategory = await Category.findOne({ where: { name } });
+
+    if (existingCategory) {
+      return res
+        .status(400)
+        .json({ message: "Category with the same name already exists" });
+    }
+
+    // Create a new category if it doesn't exist
+    const newCategory = await Category.create({
+      id: nanoid(),
+      name,
+    });
+
     res.status(201).json(newCategory);
   } catch (error) {
-    res.status(500).json({ message: "Error creating category" });
+    res.status(500).json({ message: "Error creating category", error });
   }
 };
 
