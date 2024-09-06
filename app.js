@@ -27,16 +27,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-
-
-// In The Box : Handset, USB C Charge Cable (1m), Documentation
-// Model Number : MTP43HN/A
-// Model Name : iPhone 15
-// Color : Blue
-// Browse Type : Smartphones
-// SIM Type : Dual Sim(Nano + eSIM)
-// Hybrid Sim Slot : No
-// Touchscreen : Yes
-// OTG Compatible : No
-// Quick Charging : Yes
