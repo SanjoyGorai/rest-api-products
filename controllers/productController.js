@@ -53,6 +53,17 @@ export const getProductById = async (req, res) => {
 export const createProduct = async (req, res) => {
   const { title, description, category_id, price } = req.body;
   const files = req.files;
+  // Check if the category_id exists in the database
+  const category = await Category.findByPk(category_id);
+
+  if (!category) {
+    // Return an error if category_id does not match
+    return res
+      .status(404)
+      .json({
+        message: `Category with ID ${category_id} not found or doesn't match`,
+      });
+  }
 
   try {
     // Upload each image to Cloudinary
