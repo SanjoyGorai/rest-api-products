@@ -108,6 +108,8 @@ export const createProduct = async (req, res) => {
 
 // Update product by ID
 export const updateProductById = async (req, res) => {
+  console.log("updateProductById", req.body);
+
   const { title, description, category_id, price, images, specifications } =
     req.body;
   try {
