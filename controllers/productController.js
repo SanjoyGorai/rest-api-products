@@ -5,9 +5,12 @@ import Product from "../models/productModel.js";
 import fs from "fs";
 import fsExtra from "fs-extra";
 import path from "path";
+import { deleteUploadedFiles } from "../utils/deleteUploadedFiles.js";
 
 // Get all products
 export const getProducts = async (req, res) => {
+  console.log("getProducts", req);
+
   try {
     const products = await Product.findAll();
     res.json(products);
@@ -53,16 +56,14 @@ export const getProductById = async (req, res) => {
 export const createProduct = async (req, res) => {
   const { title, description, category_id, price } = req.body;
   const files = req.files;
+
   // Check if the category_id exists in the database
   const category = await Category.findByPk(category_id);
-
   if (!category) {
     // Return an error if category_id does not match
-    return res
-      .status(404)
-      .json({
-        message: `Category with ID ${category_id} not found or doesn't match`,
-      });
+    return res.status(404).json({
+      message: `Category with ID ${category_id} not found or doesn't match`,
+    });
   }
 
   try {
@@ -96,6 +97,8 @@ export const createProduct = async (req, res) => {
       product,
     });
   } catch (error) {
+    // If an error occurs, remove uploaded files
+    deleteUploadedFiles(files);
     res.status(500).json({
       message: "Error creating product",
       error: error.message,

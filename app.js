@@ -3,6 +3,7 @@ import { connectDB } from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import dotenv from "dotenv";
+import { cleanUploadsDir } from "./utils/cleanUploadsDir.js";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Server Error" });
 });
 
+cleanUploadsDir();
 
 // Start server
 const PORT = process.env.PORT || 5000;
