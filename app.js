@@ -4,10 +4,13 @@ import productRoutes from "./routes/productRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import dotenv from "dotenv";
 import { cleanUploadsDir } from "./utils/cleanUploadsDir.js";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
+app.use(cors());
+
 app.use(express.json());
 
 // Connect to the database

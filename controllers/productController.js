@@ -9,8 +9,6 @@ import { deleteUploadedFiles } from "../utils/deleteUploadedFiles.js";
 
 // Get all products
 export const getProducts = async (req, res) => {
-  console.log("getProducts", req);
-
   try {
     const products = await Product.findAll();
     res.json(products);
